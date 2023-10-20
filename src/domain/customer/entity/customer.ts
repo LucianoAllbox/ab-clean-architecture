@@ -14,6 +14,9 @@ export default class Customer extends Entity {
     this._id = id;
     this._name = name;
     this.validate();
+    //if (this.notification.hasErrors()) {
+    //  throw new NotificationError(this.notification.getErrors());
+    //}
     if (this.notification.hasErrors()) {
       throw new NotificationError(this.notification.getErrors());
     }
@@ -28,7 +31,19 @@ export default class Customer extends Entity {
   }
 
   validate() {
-    CustomerValidatorFactory.create().validate(this);
+    //CustomerValidatorFactory.create().validate(this);
+    if (this.id.length === 0){
+      this.notification.addError({
+          context: "customer", 
+          message: "Id is required",
+      })
+    }
+    if (this._name.length === 0){
+      this.notification.addError({
+          context: "customer", 
+          message: "Name is required",
+      })
+    }
   }
 
   changeName(name: string) {
